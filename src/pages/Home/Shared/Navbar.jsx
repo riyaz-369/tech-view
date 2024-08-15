@@ -1,5 +1,11 @@
+import { Button } from "@/components/ui/button";
+
 const Navbar = () => {
-  return <div>This is navbar</div>;
+  return (
+    <div>
+      <Button>Login</Button>
+    </div>
+  );
 };
 
 export default Navbar;
