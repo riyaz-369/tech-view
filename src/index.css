@@ -1,4 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-  
+
+.active {
+  @apply border-b-2 border-purple-700 hover:border-b-2 hover:border-purple-800 font-bold rounded;
+}
