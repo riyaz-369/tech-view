@@ -9,17 +9,30 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useAuth from "@/hooks/useAuth";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { signInUser } = useAuth();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleLogin = (data) => {
-    console.log(data);
+  const handleLogin = async (data) => {
+    try {
+      await signInUser(data.email, data.password);
+      alert("Login successful");
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      navigate("/products");
+    }
   };
 
   return (

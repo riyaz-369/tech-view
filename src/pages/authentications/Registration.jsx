@@ -9,12 +9,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AuthContext } from "@/providers/AuthProvider";
-import { useContext } from "react";
+import useAuth from "@/hooks/useAuth";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Registration = () => {
-  const { createUser, updateUserProfile, user } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useAuth();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -23,8 +25,14 @@ const Registration = () => {
   } = useForm();
 
   const handleRegistration = async (data) => {
-    await createUser(data?.email, data?.password);
-    await updateUserProfile(data.name, null);
+    try {
+      await createUser(data?.email, data?.password);
+      await updateUserProfile(data.name, null);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      navigate("/products");
+    }
   };
 
   return (

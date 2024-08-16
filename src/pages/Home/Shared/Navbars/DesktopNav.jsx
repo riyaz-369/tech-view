@@ -2,8 +2,19 @@ import MobileNav from "./MobileNav";
 import { NavLink } from "react-router-dom";
 import Login from "@/pages/authentications/Login";
 import Registration from "@/pages/authentications/Registration";
+import useAuth from "@/hooks/useAuth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const Navbar = () => {
+  const { user } = useAuth();
+
+  console.log(user);
+
   return (
     <nav className="flex justify-between container mx-auto">
       <h1 className="text-3xl md:text-4xl font-bold">Tech View</h1>
@@ -31,12 +42,36 @@ const Navbar = () => {
           </NavLink>
         </div>
 
-        <div className="flex gap-4">
-          {/* Login dialog */}
-          <Login />
-          {/* Register dialog */}
-          <Registration />
-        </div>
+        {!user ? (
+          <div className="flex gap-4">
+            {/* Login dialog */}
+            <Login />
+            {/* Register dialog */}
+            <Registration />
+          </div>
+        ) : (
+          <>
+            <HoverCard>
+              <HoverCardTrigger>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </HoverCardTrigger>
+              <HoverCardContent className="flex gap-3">
+                <img
+                  className="h-16 w-16 rounded-md"
+                  src="https://github.com/shadcn.png"
+                  alt=""
+                />
+                <div>
+                  <h3 className="font-bold">{user?.displayName}</h3>
+                  <p>{user?.email}</p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </>
+        )}
       </div>
 
       {/* mobile navbar */}

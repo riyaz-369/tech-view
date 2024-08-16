@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -9,13 +8,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import useAuth from "@/hooks/useAuth";
 import Login from "@/pages/authentications/Login";
 import Registration from "@/pages/authentications/Registration";
 
 import { MdMenu } from "react-icons/md";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const MobileNav = () => {
+  const { user } = useAuth();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -51,12 +53,29 @@ const MobileNav = () => {
         </SheetHeader>
 
         <SheetFooter className="mt-4">
-          <div className="flex gap-4">
-            {/* Login dialog */}
-            <Login />
-            {/* Register dialog */}
-            <Registration />
-          </div>
+          {!user ? (
+            <div className="flex gap-4">
+              {/* Login dialog */}
+              <Login />
+
+              {/* Register dialog */}
+              <Registration />
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-3">
+                <img
+                  className="h-16 w-16 rounded-md"
+                  src="https://github.com/shadcn.png"
+                  alt=""
+                />
+                <div>
+                  <h3 className="font-bold">{user?.displayName}</h3>
+                  <p>{user?.email}</p>
+                </div>
+              </div>
+            </>
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>
