@@ -9,17 +9,22 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AuthContext } from "@/providers/AuthProvider";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 const Registration = () => {
+  const { createUser, updateUserProfile, user } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleRegistration = (data) => {
-    console.log(data);
+  const handleRegistration = async (data) => {
+    await createUser(data?.email, data?.password);
+    await updateUserProfile(data.name, null);
   };
 
   return (
