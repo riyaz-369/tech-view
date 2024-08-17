@@ -16,7 +16,7 @@ import { MdMenu } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
 const MobileNav = () => {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
 
   return (
     <Sheet>
@@ -72,6 +72,9 @@ const MobileNav = () => {
                 <div>
                   <h3 className="font-bold">{user?.displayName}</h3>
                   <p>{user?.email}</p>
+                  <div onClick={logOut} className="mt-4">
+                    <Button>Logout</Button>
+                  </div>
                 </div>
               </div>
             </>

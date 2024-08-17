@@ -9,11 +9,10 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
-  const { user } = useAuth();
-
-  console.log(user);
+  const { user, logOut } = useAuth();
 
   return (
     <nav className="flex justify-between container mx-auto">
@@ -67,6 +66,9 @@ const Navbar = () => {
                 <div>
                   <h3 className="font-bold">{user?.displayName}</h3>
                   <p>{user?.email}</p>
+                  <div onClick={logOut} className="text-end mt-4">
+                    <Button>Logout</Button>
+                  </div>
                 </div>
               </HoverCardContent>
             </HoverCard>
