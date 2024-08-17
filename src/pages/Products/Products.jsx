@@ -1,12 +1,4 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 import {
@@ -29,8 +21,26 @@ import {
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import ProductCard from "@/components/Cards/ProductCard";
 
 const Products = () => {
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5000/products");
+      setProducts(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <section className="container my-12">
       {/* search bar */}
@@ -78,33 +88,10 @@ const Products = () => {
           </Select>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-6">
-        {/* <h1>All Products</h1> */}
-        <Card>
-          <CardHeader>
-            <img
-              className="rounded-md"
-              src="https://www.meteorelectrical.com/media/wysiwyg/dev.jpeg"
-              alt=""
-            />
-            <CardTitle>Product name</CardTitle>
-            <CardDescription>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consectetur iusto optio voluptas, voluptatibus mollitia vitae
-              aliquid pariatur, aut culpa atque provident quod necessitatibus
-              autem rem perspiciatis natus sequi! Nostrum, praesentium.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Price: $500</p>
-            <p>Category: Laptop</p>
-            <p>Rating: 5.00</p>
-            <p>Creation date: January, 2023</p>
-          </CardContent>
-          <CardFooter>
-            <Button>Buy now</Button>
-          </CardFooter>
-        </Card>
+      <div className="grid grid-cols-4 gap-6">
+        {products.map((product) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
       </div>
       {/* pagination */}
       <Pagination>
