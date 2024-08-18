@@ -27,7 +27,7 @@ const Registration = () => {
   const handleRegistration = async (data) => {
     try {
       await createUser(data?.email, data?.password);
-      await updateUserProfile(data.name, null);
+      await updateUserProfile(data.name, data.photo);
     } catch (error) {
       alert(error.message);
     } finally {
@@ -43,7 +43,7 @@ const Registration = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="mb-6 text-2xl">
-            Login your account.
+            Register your account.
           </DialogTitle>
           <DialogDescription>
             {/* login form */}
@@ -51,7 +51,7 @@ const Registration = () => {
               onSubmit={handleSubmit(handleRegistration)}
               className="space-y-3"
             >
-              <div className="space-y-2">
+              <div className="space-y-2 text-start">
                 <Label htmlFor="name">Name</Label>
                 <Input
                   type="text"
@@ -62,7 +62,15 @@ const Registration = () => {
                   <p className="text-red-500">Name is required</p>
                 )}
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 text-start">
+                <Label htmlFor="photo">Photo URL</Label>
+                <Input
+                  type="text"
+                  placeholder="Enter photo URL"
+                  {...register("photo")}
+                />
+              </div>
+              <div className="space-y-2 text-start">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   type="email"
@@ -73,7 +81,7 @@ const Registration = () => {
                   <p className="text-red-500">Email is required</p>
                 )}
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 text-start">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   type="text"

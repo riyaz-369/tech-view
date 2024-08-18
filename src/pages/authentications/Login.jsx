@@ -48,7 +48,7 @@ const Login = () => {
           <DialogDescription>
             {/* login form */}
             <form onSubmit={handleSubmit(handleLogin)} className="space-y-3">
-              <div className="space-y-2">
+              <div className="space-y-2 text-start">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   type="email"
@@ -59,7 +59,7 @@ const Login = () => {
                   <p className="text-red-500">Email is required</p>
                 )}
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 text-start">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   type="text"

@@ -38,12 +38,6 @@ const MobileNav = () => {
               </NavLink>
               <NavLink
                 className="hover:border-b-2 border-purple-800 hover:rounded transition-all pl-1 py-1 lg:px-4"
-                to="/about"
-              >
-                About
-              </NavLink>
-              <NavLink
-                className="hover:border-b-2 border-purple-800 hover:rounded transition-all pl-1 py-1 lg:px-4"
                 to="/products"
               >
                 Products
@@ -66,8 +60,8 @@ const MobileNav = () => {
               <div className="flex gap-3">
                 <img
                   className="h-16 w-16 rounded-md"
-                  src="https://github.com/shadcn.png"
-                  alt=""
+                  src={user?.photoURL}
+                  referrerPolicy="no-referrer"
                 />
                 <div>
                   <h3 className="font-bold">{user?.displayName}</h3>

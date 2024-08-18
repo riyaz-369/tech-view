@@ -70,23 +70,40 @@ const Products = () => {
   return (
     <section className="container my-12">
       {/* search bar */}
-      <div className="bg-slate-100 p-4 rounded-md flex justify-between mb-8">
-        <div className="flex gap-3 w-1/3">
+      <div className="bg-slate-100 p-4 rounded-md lg:flex justify-between mb-8">
+        <div className="flex gap-3 lg:w-1/3 mb-4 lg:mb-0">
           <Input
             type="text"
             placeholder="Search products"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button variant="outline" onClick={handleSearch}>
-            Search
-          </Button>
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={handleSearch}>
+              Search
+            </Button>
+            {/* reset button */}
+            <div>
+              <Button
+                onClick={() => {
+                  setSearchTerm("");
+                  setCategory("");
+                  setPriceRange("");
+                  setSortOrder("default");
+                  setCurrentPage(1);
+                  getProducts();
+                }}
+              >
+                Reset
+              </Button>
+            </div>
+          </div>
         </div>
 
-        <div>
+        <div className="mb-4 lg:mb-0">
           <RadioGroup
             defaultValue="laptop"
-            className="grid grid-cols-2"
+            className="grid grid-cols-1 md:grid-cols-2"
             onValueChange={(value) => {
               setCategory(value);
               setCurrentPage(1);
@@ -112,22 +129,6 @@ const Products = () => {
           </RadioGroup>
         </div>
 
-        {/* reset button */}
-        <div>
-          <Button
-            onClick={() => {
-              setSearchTerm("");
-              setCategory("");
-              setPriceRange("");
-              setSortOrder("default");
-              setCurrentPage(1);
-              getProducts();
-            }}
-          >
-            Reset
-          </Button>
-        </div>
-
         {/* sorted by select */}
         <div className="flex items-center gap-2">
           <div>
@@ -141,7 +142,7 @@ const Products = () => {
             }}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Default" />
+              <SelectValue defaultChecked="default" placeholder="Default" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="default">Default</SelectItem>
@@ -152,13 +153,13 @@ const Products = () => {
           </Select>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </div>
       {/* pagination */}
-      <Pagination>
+      <Pagination className="mt-8">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
