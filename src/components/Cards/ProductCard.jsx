@@ -23,11 +23,7 @@ const ProductCard = ({ product }) => {
     <Card className="flex flex-col justify-between">
       <div>
         <CardHeader>
-          <img
-            className="rounded-md"
-            src="https://www.meteorelectrical.com/media/wysiwyg/dev.jpeg"
-            alt=""
-          />
+          <img className="rounded-md" src={product_image} alt="" />
           <CardTitle>{product_name}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
