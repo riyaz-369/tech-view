@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import {
   Pagination,
   PaginationContent,
@@ -10,7 +9,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
 import {
   Select,
   SelectContent,
@@ -18,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import axios from "axios";
@@ -27,13 +24,28 @@ import ProductCard from "@/components/Cards/ProductCard";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("");
+  const [priceRange, setPriceRange] = useState("");
+  const [sortOrder, setSortOrder] = useState("default");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const getProducts = async () => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.append("search", searchTerm);
+    if (category) params.append("category", category);
+    if (priceRange) params.append("priceRange", priceRange);
+    if (sortOrder !== "default") params.append("sort", sortOrder);
+    params.append("page", currentPage);
+    params.append("limit", 8);
+
     try {
       const { data } = await axios.get(
-        "https://server-rho-dun.vercel.app/products"
+        `http://localhost:5000/products?${params.toString()}`
       );
-      setProducts(data);
+      setProducts(data.products);
+      setTotalPages(data.totalPages);
     } catch (error) {
       console.log(error.message);
     }
@@ -41,19 +53,46 @@ const Products = () => {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [currentPage, category, sortOrder]);
+
+  // Handle search
+  const handleSearch = () => {
+    setCurrentPage(1);
+    getProducts();
+  };
+
+  // Handle pagination
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    getProducts();
+  };
 
   return (
     <section className="container my-12">
       {/* search bar */}
       <div className="bg-slate-100 p-4 rounded-md flex justify-between mb-8">
         <div className="flex gap-3 w-1/3">
-          <Input type="text" placeholder="Search products" />
-          <Button variant="outline">Search</Button>
+          <Input
+            type="text"
+            placeholder="Search products"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Button variant="outline" onClick={handleSearch}>
+            Search
+          </Button>
         </div>
 
         <div>
-          <RadioGroup defaultValue="laptop" className="grid grid-cols-2">
+          <RadioGroup
+            defaultValue="laptop"
+            className="grid grid-cols-2"
+            onValueChange={(value) => {
+              setCategory(value);
+              setCurrentPage(1);
+              getProducts();
+            }}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="laptop" id="laptop" />
               <Label htmlFor="laptop">Laptop</Label>
@@ -67,10 +106,26 @@ const Products = () => {
               <Label htmlFor="mobile">Mobile</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="smart watch" id="smart watch" />
-              <Label htmlFor="smart watch">Smart Watch</Label>
+              <RadioGroupItem value="smartwatch" id="smartwatch" />
+              <Label htmlFor="smartwatch">Smartwatch</Label>
             </div>
           </RadioGroup>
+        </div>
+
+        {/* reset button */}
+        <div>
+          <Button
+            onClick={() => {
+              setSearchTerm("");
+              setCategory("");
+              setPriceRange("");
+              setSortOrder("default");
+              setCurrentPage(1);
+              getProducts();
+            }}
+          >
+            Reset
+          </Button>
         </div>
 
         {/* sorted by select */}
@@ -78,7 +133,13 @@ const Products = () => {
           <div>
             <p className="text-xs font-bold">Sorted by:</p>
           </div>
-          <Select>
+          <Select
+            onValueChange={(value) => {
+              setSortOrder(value);
+              setCurrentPage(1);
+              getProducts();
+            }}
+          >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Default" />
             </SelectTrigger>
@@ -86,6 +147,7 @@ const Products = () => {
               <SelectItem value="default">Default</SelectItem>
               <SelectItem value="low-high">Price: low - high</SelectItem>
               <SelectItem value="high-low">Price: high - low</SelectItem>
+              <SelectItem value="newest">Newest</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -99,16 +161,26 @@ const Products = () => {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
           </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
+          {[...Array(totalPages)].map((page, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink onClick={() => handlePageChange(index + 1)}>
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
           <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
