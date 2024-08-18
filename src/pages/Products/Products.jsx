@@ -30,7 +30,9 @@ const Products = () => {
 
   const getProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/products");
+      const { data } = await axios.get(
+        "https://server-rho-dun.vercel.app/products"
+      );
       setProducts(data);
     } catch (error) {
       console.log(error.message);
