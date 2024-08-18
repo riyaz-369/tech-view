@@ -42,7 +42,7 @@ const Products = () => {
 
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/products?${params.toString()}`
+        `https://server-rho-dun.vercel.app/products?${params.toString()}`
       );
       setProducts(data.products);
       setTotalPages(data.totalPages);

@@ -1,5 +1,5 @@
 import MobileNav from "./MobileNav";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Login from "@/pages/authentications/Login";
 import Registration from "@/pages/authentications/Registration";
 import useAuth from "@/hooks/useAuth";
@@ -17,14 +17,14 @@ const Navbar = () => {
   return (
     <nav className="bg-slate-100 py-4 shadow-md">
       <div className="container flex justify-between">
-        <div className="flex items-center gap-2">
+        <Link className="flex items-center gap-2">
           <img
             className="w-9 rounded-full"
             src="../../../../public/logo.jpg"
             alt=""
           />
           <h1 className="text-3xl font-bold">Tech View</h1>
-        </div>
+        </Link>
         {/* desktop navbar */}
         <div className="hidden lg:flex items-center gap-8">
           <div className="flex gap-4">

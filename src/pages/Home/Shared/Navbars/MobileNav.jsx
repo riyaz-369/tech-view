@@ -13,7 +13,7 @@ import Login from "@/pages/authentications/Login";
 import Registration from "@/pages/authentications/Registration";
 
 import { MdMenu } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const MobileNav = () => {
   const { user, logOut } = useAuth();
@@ -27,7 +27,9 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Tech View</SheetTitle>
+          <Link>
+            <SheetTitle>Tech View</SheetTitle>
+          </Link>
           <SheetDescription>
             <div className="flex flex-col gap-4">
               <NavLink
