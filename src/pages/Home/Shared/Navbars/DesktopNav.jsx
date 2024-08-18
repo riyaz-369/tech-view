@@ -14,8 +14,6 @@ import { Button } from "@/components/ui/button";
 const Navbar = () => {
   const { user, logOut } = useAuth();
 
-  console.log(user);
-
   return (
     <nav className="bg-slate-100 py-4 shadow-md">
       <div className="container flex justify-between">

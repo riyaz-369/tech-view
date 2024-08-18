@@ -12,9 +12,8 @@ const Banner = () => {
             Gadget
           </h2>
           <p className="mt-4 text-sm text-gray-500  lg:text-base">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis
-            commodi cum cupiditate ducimus, fugit harum id necessitatibus odio
-            quam quasi, quibusdam rem tempora voluptates.
+            Discover the latest in modern electronics, featuring cutting-edge
+            gadgets that redefine technology and elevate your lifestyle.
           </p>
 
           <div className="flex flex-col mt-6 space-y-3 lg:space-y-0 lg:flex-row">
